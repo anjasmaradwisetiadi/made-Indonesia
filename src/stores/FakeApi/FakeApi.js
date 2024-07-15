@@ -1,10 +1,10 @@
 // ************ make example rudex when it can example code used
 import {createSlice} from '@reduxjs/toolkit'
 
-const counterSlice = createSlice({
-    name: 'counter',
+const fakeApiSlice = createSlice({
+    name: 'fakeApi',
     initialState:{ 
-        counter: null,
+        fakeApi: null,
         createResponse: null,
         detailResponse: null,
         updateResponse: null,
@@ -12,8 +12,8 @@ const counterSlice = createSlice({
         loading: false,
     },
     reducers: {
-      counterReducer(state, payload) {
-        state.counter = payload.payload
+      fakeApiReducer(state, payload) {
+        state.fakeApi = payload.payload
       },
       createResponseReducer(state, payload){
         state.createResponse = payload.payload
@@ -34,11 +34,11 @@ const counterSlice = createSlice({
 })
 
 export const {
-  counterReducer, 
+  fakeApiReducer, 
   createResponseReducer,
   getDetailResponseReducer,
   updateResponseReducer,
   deleteResponseReducer,
   loadingReducer
-} = counterSlice.actions;
-export default counterSlice;
+} = fakeApiSlice.actions;
+export default fakeApiSlice;
