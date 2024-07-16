@@ -1,5 +1,5 @@
 // ********** make example service when it can example code used
-import instanceAxios from "utilize/instanceAxios";
+import { instanceAxios } from "../utilizes/initializeAxios";
 
 export const authLogin = (payload) =>{
     return async (dispatch) =>{
@@ -7,7 +7,7 @@ export const authLogin = (payload) =>{
             payload
         )
         .then((response)=>{
-            console.log("response = ");
+            console.log("response login = ");
             console.log(response)
         })
         .catch((error)=>{
