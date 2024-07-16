@@ -1,27 +1,23 @@
-import * as React from "react";
-import { createRoot } from "react-dom/client";
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Route,
-  Link,
-} from "react-router-dom";
-import Dashboard from "../views/dashboard/Dashboard.jsx";
-import Login from "../views/auth/LoginPage.jsx";
 
-const router = createBrowserRouter([
+const router = [
   {
-    path: "/",
-    element: (<Dashboard></Dashboard>),
+    name: "/",
+    key: "/",
+    route: "/",
+    component: 'dashboard',
   },
   {
-    path: "/dashboard",
-    element: (<Dashboard></Dashboard>),
+    name: "login",
+    key: "login",
+    route: "/login",
+    component: 'login',
   },
   {
-    path: "/login",
-    element: (<Login></Login>),
+    name: "dashboard",
+    key: "dashboard",
+    route: "/dashboard",
+    component: 'dashboard',
   },
-]);
+]
 
 export default router;
