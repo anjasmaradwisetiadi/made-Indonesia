@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Outlet, Link, useNavigate } from "react-router-dom";
 import { getTokenLoader } from '../../../utilizes/AuthCheck';
 import Dashbooard from '../../dashboard/Dashboard';
@@ -10,7 +10,6 @@ const WrapAuth = (props) => {
     const [displayPage, setDisplayPage] = useState(null);
 
     useEffect(()=>{
-
         if(getTokenLoader()){
             if(name === 'dashboard'){
                 setDisplayPage(<Dashbooard></Dashbooard>)
@@ -20,7 +19,7 @@ const WrapAuth = (props) => {
         } else {
             navigate('/login')
         }
-    },[name])
+    }, [])
     return (
         <div>
             {displayPage}

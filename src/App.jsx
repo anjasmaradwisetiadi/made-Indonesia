@@ -24,7 +24,7 @@ function App() {
     allRoutes.map((route) => {
       if (route.name !== 'login') {
         return <Route exact path={route.route} element={<WrapAuth name={route.component} /> } key={route.key} />;
-      }  else if (route.name === 'login'){
+      } else if (route.name === 'login'){
         return <Route exact path={route.route} element={<WrapNoAuth name={route.component} /> } key={route.key} />;
       } else {
         return null;
@@ -35,7 +35,6 @@ function App() {
   useEffect(()=>{
     console.log("react effect = ")
     console.log(router)
-
   }, [])
 
   return (
