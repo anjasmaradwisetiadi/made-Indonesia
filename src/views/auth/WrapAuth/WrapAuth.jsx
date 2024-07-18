@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Outlet, Link, useNavigate } from "react-router-dom";
 import { getTokenLoader } from '../../../utilizes/AuthCheck';
 import Dashbooard from '../../dashboard/Dashboard';
+import Navbar from '../../../components/navbar/Navbar';
 
 const WrapAuth = (props) => {
     const {name} = props;
@@ -22,7 +23,10 @@ const WrapAuth = (props) => {
     }, [])
     return (
         <div>
-            {displayPage}
+            <Navbar></Navbar>
+            <div className='container'>
+                {displayPage}
+            </div>
         </div>
     )
 }

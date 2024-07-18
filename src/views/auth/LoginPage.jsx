@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useRef, } from 'react';
 import classes from './index.module.css';
-
-
+import Swal from 'sweetalert2';
 import { authLogin } from '../../services/AuthService';
 import { useDispatch } from 'react-redux';
-
-
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     useEffect(()=>{
         console.log("import.meta.env.APP_URL_FAKE_API = ")
@@ -30,8 +29,23 @@ const Login = () => {
             password: password
         }
     
-    
-        dispatch(authLogin(payload))
+        authLogin(payload)
+            .then((data)=>{
+                if(data){
+                    Swal.fire({
+                        title: "Successfull Login ",
+                        text: "You will redirect to Dashboard",
+                        icon: "success",
+                        confirmButtonText: "Go To Dashboard",
+                        confirmButtonColor:"#1874e7",
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            navigate('/dashboard');
+                        }
+                    });
+                }
+            })
+
     }
 
     return (

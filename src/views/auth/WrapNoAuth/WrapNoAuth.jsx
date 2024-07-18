@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Outlet, Link, useNavigate } from "react-router-dom";
 import { getTokenLoader } from '../../../utilizes/AuthCheck';
-import Login from '../LoginPage.jsx';
+import Login from '../LoginPage';
 const WrapNoAuth = (props) => {
     const {name} = props;
     let navigate = useNavigate()

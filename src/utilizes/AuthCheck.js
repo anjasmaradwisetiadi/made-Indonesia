@@ -1,8 +1,12 @@
 import { redirect } from "react-router-dom";
 
 export function getTokenLoader() {
-    const dataStorage  = true;
+    const dataStorage  = localStorage?.getItem('user') ? JSON.parse(localStorage?.getItem('user')) : null
     return dataStorage
+}
+
+export function deleteTokenLoader() {
+    localStorage.removeItem('user');
 }
 
 export const checkAuthLoader = ()=>{
