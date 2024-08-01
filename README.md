@@ -1,8 +1,26 @@
-# React + Vite
+# Made Indonesia
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This template should help get you started developing with React in Vite.
+youcan look for review app on thi link [made-indonesia](https://app-testing-anything.web.app/)  
+>
+Note: 
+1. first time consume original base url => https://app-testing-anything.web.app/
+2. make .env from file .env_example then fill base url API Response from app deploy used
 
-Currently, two official plugins are available:
+## Project Setup
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```sh
+npm install
+```
+
+### Compile and Hot-Reload for Development
+
+```sh
+npm run dev
+```
+
+### Compile and Minify for Production
+
+```sh
+npm run build
+```
