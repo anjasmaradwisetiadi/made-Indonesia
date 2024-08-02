@@ -9,9 +9,11 @@ import {
  } from '../../stores/ReviewTest/ReviewTest';
  import { useDispatch, useSelector } from 'react-redux';
  import { utilize } from '../../utilizes';
+ import { Outlet, Link, useNavigate } from "react-router-dom";
 
 const Dashbooard = () => {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const getRuningTime = useSelector((state)=> state.reviewTest.runningTime);
     const getStatusSubmit = useSelector((state)=> state.reviewTest.statusSubmit);
@@ -70,7 +72,11 @@ const Dashbooard = () => {
         dispatch(setStepReducer(1))
         dispatch(setStatusSubmitReducer(false));
         dispatch(savedResponseReducer(null));
+    }
 
+    const handleLookResponse = () =>{
+        navigate('/review-test')
+        window.location.reload()
     }
 
     return (
@@ -146,6 +152,17 @@ const Dashbooard = () => {
                                 Restart
                             </button>
 
+                            <button
+                                className="w-full py-2 text-sm sm:text-lg font-medium text-white bg-primary rounded-md bg-green-400"
+                                onClick={() => {
+                                    handleLookResponse()
+                                }}
+                            >
+                                Look response
+                            </button>
+
+                            {/*********** end  -it just for trigger need remoove code */}
+
                             <div className="flex">
                                 <span className="text-sm sm:text-lg font-medium text-primary">
                                     Time Left: {utilize.handleFormatTime(getRuningTime)}
@@ -161,15 +178,26 @@ const Dashbooard = () => {
                         <p className="text-sm sm:text-lg font-medium text-primary">
                             Your response has been recorded.
                         </p>
-
-                        <button
-                            className="px-4 py-2 text-sm sm:text-lg font-medium text-white bg-primary rounded-md hover:bg-primary/90"
-                            onClick={() => {
-                                reset()
-                            }}
-                        >
-                            Restart
-                        </button>
+                        <div className='w-full flex justify-center'>
+                            <button
+                                className="w-full py-2 text-sm sm:text-lg font-medium text-white bg-primary rounded-md bg-green-400"
+                                onClick={() => {
+                                    handleLookResponse()
+                                }}
+                            >
+                                Look response
+                            </button>
+                        </div>
+                        <div className='w-full flex justify-center'>
+                            <button
+                                className="w-full py-2 text-sm sm:text-lg font-medium text-white bg-primary rounded-md bg-orange-400"
+                                onClick={() => {
+                                    reset()
+                                }}
+                            >
+                                Restart
+                            </button>
+                        </div>
                     </div>
                 )}
             </div>

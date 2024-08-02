@@ -9,6 +9,7 @@ const reviewTestSlice = createSlice({
         statusSubmit: false,
         savedFormResponse: (localStorage.getItem("formData") ? JSON.parse(localStorage.getItem("formData")) : {}),
         setStep: (localStorage.getItem("step") ? parseInt(localStorage.getItem("step"), 10) : 10),
+        recordReviewTest: [],
         loading: false,
     },
     reducers: {
@@ -37,19 +38,29 @@ const reviewTestSlice = createSlice({
             state.savedFormResponse = {}
         }
       },
-
       setStepReducer(state, payload){
         state.setStep = payload.payload
+      },
+
+      getResponseRecorderReducer(state, payload){
+        let collectData = [];
+        const dataStore = payload.payload.dataStore
+        const object = payload.payload.dataSaveLocal
+
+        for (const property in object) {
+            dataStore.forEach((item, index)=>{
+                if (item?.name === property){
+                    const payload = {
+                        question: item.question,
+                        choices: object[property]
+                    }
+                    collectData.push(payload)
+                }
+            })
+        }
+
+        state.recordReviewTest = collectData
       }
-    //   updateResponseReducer(state, payload){
-    //     state.updateResponse = payload.payload 
-    //   },
-    //   deleteResponseReducer(state, payload){
-    //     state.deleteResponse = payload.payload
-    //   },
-    //   loadingReducer(state, payload){
-    //     state.loading = payload.payload;
-    //   }
     },
 })
 
@@ -59,5 +70,6 @@ export const {
   savedResponseReducer,
   setStepReducer,
   setStatusSubmitReducer,
+  getResponseRecorderReducer,
 } = reviewTestSlice.actions;
 export default reviewTestSlice;
