@@ -23,8 +23,8 @@ const store = configureStore({
     }
 })
 
-store.subscribe(()=>{
-    console.log("STORE CHANGE:", store.getState())
-})
+// store.subscribe(()=>{
+//     console.log("STORE CHANGE:", store.getState())
+// })
 
 export default store;

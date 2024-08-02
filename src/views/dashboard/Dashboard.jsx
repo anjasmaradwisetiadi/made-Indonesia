@@ -4,7 +4,8 @@ import {
     reviewTestReducer,
     runningTimeReducer,
     savedResponseReducer,
-    setStatusSubmitReducer
+    setStatusSubmitReducer,
+    setStepReducer
  } from '../../stores/ReviewTest/ReviewTest';
  import { useDispatch, useSelector } from 'react-redux';
  import { utilize } from '../../utilizes';
@@ -15,11 +16,8 @@ const Dashbooard = () => {
     const getRuningTime = useSelector((state)=> state.reviewTest.runningTime);
     const getStatusSubmit = useSelector((state)=> state.reviewTest.statusSubmit);
     const getSavedFormResponse = useSelector((state)=> state.reviewTest.savedFormResponse)
-
-    const [step, setStep] = useState(parseInt(localStorage.getItem("step"), 10) || 1);
-    // const [formData, setFormData] = useState(JSON.parse(localStorage.getItem("formData")) || {});
-    const [timer, setTimer] = useState( getRuningTime || 300);
-    const [isSubmitted, setIsSubmitted] = useState(false);
+    const getSetState = useSelector((state)=> state.reviewTest.setStep)
+    const [timer, setTimer] = useState( getRuningTime || 20);
 
     useEffect(()=>{
         const interval = setInterval(() => {
@@ -35,8 +33,9 @@ const Dashbooard = () => {
     },[dispatch, getRuningTime, timer])
 
     const handleNext = () => {
-        if (step < dataStore.length) {
-            setStep(step + 1);
+
+        if (getSetState < dataStore.length) {
+            dispatch(setStepReducer(getSetState+1))
         } else {
             handleSubmit();
         }
@@ -48,25 +47,30 @@ const Dashbooard = () => {
     };
 
     useEffect(() => {
-
         if(getStatusSubmit && !getRuningTime){
             handleSubmit()
-        } else {
+        } else if(getSavedFormResponse && getSetState && getRuningTime){
             localStorage.setItem("formData", JSON.stringify(getSavedFormResponse));
-            localStorage.setItem("step", step.toString());
+            localStorage.setItem("step", getSetState.toString());
             localStorage.setItem("timer", getRuningTime);
         }
-    }, [getRuningTime, getStatusSubmit, getSavedFormResponse]);
+    }, [getRuningTime, getStatusSubmit, getSavedFormResponse, getSetState]);
 
     const handleFormChange = (e) => {
-        dispatch(savedResponseReducer(e))
+        const name = e.target.name
+        const value =  e.target.value
+        const payload = {
+            [name]: value
+        }
+        dispatch(savedResponseReducer(payload))
     }
 
     const reset = () =>{
-        setStep(1);
         setTimer(300);
+        dispatch(setStepReducer(1))
         dispatch(setStatusSubmitReducer(false));
-        dispatch(savedResponseReducer({}));
+        dispatch(savedResponseReducer(null));
+
     }
 
     return (
@@ -78,7 +82,7 @@ const Dashbooard = () => {
                             {Array.from({ length: dataStore.length }, (_, i) => i + 1).map(
                                 (item) => (
                                     <div
-                                        className={`w-full h-2 rounded-full ${step >= item ? "bg-orange-400" : "bg-white"
+                                        className={`w-full h-2 rounded-full ${getSetState >= item ? "bg-orange-400" : "bg-white"
                                             } transition-all duration-500`}
                                         key={item}
                                     ></div>
@@ -91,9 +95,9 @@ const Dashbooard = () => {
                                 {dataStore.map((question, index) => (
                                     <div
                                         key={index}
-                                        className={`absolute w-full flex flex-col gap-3 transition-all duration-500 ${step === index + 1
+                                        className={`absolute w-full flex flex-col gap-3 transition-all duration-500 ${getSetState === index + 1
                                             ? "translate-x-0"
-                                            : step > index + 1
+                                            : getSetState > index + 1
                                                 ? "-translate-x-full"
                                                 : "translate-x-full"
                                             }`}
@@ -105,8 +109,8 @@ const Dashbooard = () => {
                                             {question.question}
                                         </p>
                                         <div className="flex flex-col gap-3">
-                                            {question.choices.map((choice) => (
-                                                <label htmlFor={choice} className="flex items-center gap-2" key={choice}>
+                                            {question.choices.map((choice, index) => (
+                                                <label htmlFor={choice} className="flex items-center gap-2" key={index}>
                                                     <input
                                                         type="radio"
                                                         name={question.name}
@@ -116,6 +120,7 @@ const Dashbooard = () => {
                                                         checked={getSavedFormResponse[question.name] === choice}
                                                         onChange={(e) => handleFormChange(e)}
                                                     />
+                                                    {/* <span> getSavedFormResponse: {getSavedFormResponse[question.name]} === choice: {choice} </span> */}
                                                     <span className="w-4 h-4 flex-shrink-0 bg-white/25 border-2 border-secondary rounded-full peer-checked:bg-black peer-checked:border-transparent"></span>
                                                     <span className="text-secondary text-sm sm:text-lg font-medium">{choice}</span>
                                                 </label>
@@ -126,20 +131,20 @@ const Dashbooard = () => {
                             </div>
 
                             <button
-                                className="px-4 py-2 text-sm sm:text-lg font-medium text-white bg-primary rounded-md hover:bg-primary/90"
+                                className="px-4 py-2 text-sm sm:text-lg font-medium text-white bg-primary rounded-md bg-orange-400"
                                 onClick={() => handleNext()}
                             >
-                                {step === dataStore.length ? "Submit" : "Next"}
+                                {getSetState === dataStore.length ? "Submit" : "Next"}
                             </button>
                             {/*********** it just for trigger need remoove code */}
-                            {/* <button
+                            <button
                                 className="px-4 py-2 text-sm sm:text-lg font-medium text-white bg-primary rounded-md hover:bg-primary/90"
                                 onClick={() => {
                                     reset()
                                 }}
                             >
                                 Restart
-                            </button> */}
+                            </button>
 
                             <div className="flex">
                                 <span className="text-sm sm:text-lg font-medium text-primary">

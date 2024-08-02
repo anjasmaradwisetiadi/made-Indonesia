@@ -11,7 +11,7 @@ export const dataStore = [
     },
     {
         question: "What type of computer OS do you use?",
-        choices: [ "Windows", "Linux", "IOS",],
+        choices: [ "Linux", "IOS", "Window"],
         name: "os-compute",
     },
     {
