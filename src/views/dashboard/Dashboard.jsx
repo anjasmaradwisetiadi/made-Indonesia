@@ -44,6 +44,7 @@ const Dashbooard = () => {
     const handleSubmit = () => {
         dispatch(setStatusSubmitReducer(true));
         setTimer(0);
+        dispatch(runningTimeReducer(0))
     };
 
     useEffect(() => {
