@@ -7,7 +7,7 @@ const reviewTestSlice = createSlice({
         runningTime: (localStorage.getItem("timer") ? parseInt(localStorage.getItem("timer"), 10) : 180),
         statusSubmit: (localStorage.getItem("isSubmit") ? JSON.parse(localStorage.getItem("isSubmit")) : false),
         savedFormResponse: (localStorage.getItem("formData") ? JSON.parse(localStorage.getItem("formData")) : {}),
-        setStep: (localStorage.getItem("step") ? parseInt(localStorage.getItem("step"), 10) : 10),
+        setStep: (localStorage.getItem("step") ? parseInt(localStorage.getItem("step"), 10) : 1),
         recordReviewTest: [],
         loading: false,
     },
