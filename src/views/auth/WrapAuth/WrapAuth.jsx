@@ -20,9 +20,9 @@ const WrapAuth = (props) => {
         }
 }, [])
     return (
-        <div>
+        <div className='bg-gradient-to-r from-red-primary to-red-secondary'>
             {/* <Navbar></Navbar> */}
-            <div className='container'>
+            <div className='bg-gradient-to-r from-red-primary to-red-secondary'>
                 {displayPage}
             </div>
         </div>

@@ -3,21 +3,23 @@ import { dataStore } from '../../utilizes/DataStore';
 import { 
     reviewTestReducer,
     runningTimeReducer,
-    savedResponseReducer
+    savedResponseReducer,
+    setStatusSubmitReducer
  } from '../../stores/ReviewTest/ReviewTest';
  import { useDispatch, useSelector } from 'react-redux';
  import { utilize } from '../../utilizes';
 
 const Dashbooard = () => {
     const dispatch = useDispatch()
-    const [step, setStep] = useState(parseInt(localStorage.getItem("step"), 10) || 1);
-    const [formData, setFormData] = useState(JSON.parse(localStorage.getItem("formData")) || {});
-    const [timer, setTimer] = useState(parseInt(localStorage.getItem("timer"), 10) || 20);
-    const [isSubmitted, setIsSubmitted] = useState(false);
 
     const getRuningTime = useSelector((state)=> state.reviewTest.runningTime);
     const getStatusSubmit = useSelector((state)=> state.reviewTest.statusSubmit);
-    const getFormData = useSelector((state)=> state.reviewTest.savedResponse)
+    const getSavedFormResponse = useSelector((state)=> state.reviewTest.savedFormResponse)
+
+    const [step, setStep] = useState(parseInt(localStorage.getItem("step"), 10) || 1);
+    // const [formData, setFormData] = useState(JSON.parse(localStorage.getItem("formData")) || {});
+    const [timer, setTimer] = useState( getRuningTime || 300);
+    const [isSubmitted, setIsSubmitted] = useState(false);
 
     useEffect(()=>{
         const interval = setInterval(() => {
@@ -41,36 +43,34 @@ const Dashbooard = () => {
     };
 
     const handleSubmit = () => {
-        setIsSubmitted(true);
+        dispatch(setStatusSubmitReducer(true));
         setTimer(0);
     };
 
     useEffect(() => {
+
         if(getStatusSubmit && !getRuningTime){
             handleSubmit()
         } else {
-            localStorage.setItem("formData", JSON.stringify(formData));
+            localStorage.setItem("formData", JSON.stringify(getSavedFormResponse));
             localStorage.setItem("step", step.toString());
             localStorage.setItem("timer", getRuningTime);
         }
-    }, [getRuningTime, getStatusSubmit, getFormData]);
+    }, [getRuningTime, getStatusSubmit, getSavedFormResponse]);
 
     const handleFormChange = (e) => {
-        setFormData((prev) => ({
-            ...prev,
-            [e.target.name]: e.target.value,
-        }));
-        // dispatch(savedResponseReducer(e))
+        dispatch(savedResponseReducer(e))
     }
 
     const reset = () =>{
-        localStorage.removeItem("formData");
-        localStorage.removeItem("step");
-        localStorage.removeItem("timer");
+        setStep(1);
+        setTimer(300);
+        dispatch(setStatusSubmitReducer(false));
+        dispatch(savedResponseReducer({}));
     }
 
     return (
-        <main className="h-screen flex justify-center items-center p-2 bg-gradient-to-b from-white via-red-400 to-primary font-jakarta">
+        <main className="h-screen flex justify-center items-center p-2 bg-gradient-to-r from-red-primary to-red-secondary font-jakarta">
             <div className="p-6 bg-white/25 backdrop-blur-md rounded-md relative max-w-lg container">
                 {!getStatusSubmit && (
                     <>
@@ -78,7 +78,7 @@ const Dashbooard = () => {
                             {Array.from({ length: dataStore.length }, (_, i) => i + 1).map(
                                 (item) => (
                                     <div
-                                        className={`w-full h-2 rounded-full ${step >= item ? "bg-primary" : "bg-white/50"
+                                        className={`w-full h-2 rounded-full ${step >= item ? "bg-orange-400" : "bg-white"
                                             } transition-all duration-500`}
                                         key={item}
                                     ></div>
@@ -113,10 +113,10 @@ const Dashbooard = () => {
                                                         id={choice}
                                                         className="hidden peer"
                                                         value={choice}
-                                                        checked={formData[question.name] === choice}
+                                                        checked={getSavedFormResponse[question.name] === choice}
                                                         onChange={(e) => handleFormChange(e)}
                                                     />
-                                                    <span className="w-4 h-4 flex-shrink-0 bg-white/25 border-2 border-secondary rounded-full peer-checked:bg-primary peer-checked:border-transparent"></span>
+                                                    <span className="w-4 h-4 flex-shrink-0 bg-white/25 border-2 border-secondary rounded-full peer-checked:bg-black peer-checked:border-transparent"></span>
                                                     <span className="text-secondary text-sm sm:text-lg font-medium">{choice}</span>
                                                 </label>
                                             ))}
@@ -131,6 +131,15 @@ const Dashbooard = () => {
                             >
                                 {step === dataStore.length ? "Submit" : "Next"}
                             </button>
+                            {/*********** it just for trigger need remoove code */}
+                            {/* <button
+                                className="px-4 py-2 text-sm sm:text-lg font-medium text-white bg-primary rounded-md hover:bg-primary/90"
+                                onClick={() => {
+                                    reset()
+                                }}
+                            >
+                                Restart
+                            </button> */}
 
                             <div className="flex">
                                 <span className="text-sm sm:text-lg font-medium text-primary">
