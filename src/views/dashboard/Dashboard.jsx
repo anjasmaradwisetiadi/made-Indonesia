@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { dataStore } from '../../utilizes/DataStore';
 import { 
-    reviewTestReducer,
     runningTimeReducer,
     savedResponseReducer,
     setStatusSubmitReducer,
@@ -9,7 +8,7 @@ import {
  } from '../../stores/ReviewTest/ReviewTest';
  import { useDispatch, useSelector } from 'react-redux';
  import { utilize } from '../../utilizes';
- import { Outlet, Link, useNavigate } from "react-router-dom";
+ import { useNavigate } from "react-router-dom";
 
 const Dashbooard = () => {
     const dispatch = useDispatch();
@@ -19,7 +18,7 @@ const Dashbooard = () => {
     const getStatusSubmit = useSelector((state)=> state.reviewTest.statusSubmit);
     const getSavedFormResponse = useSelector((state)=> state.reviewTest.savedFormResponse)
     const getSetState = useSelector((state)=> state.reviewTest.setStep)
-    const [timer, setTimer] = useState( getRuningTime || 20);
+    const [timer, setTimer] = useState( getRuningTime || 180);
 
     useEffect(()=>{
         const interval = setInterval(() => {
@@ -35,7 +34,6 @@ const Dashbooard = () => {
     },[dispatch, getRuningTime, timer])
 
     const handleNext = () => {
-
         if (getSetState < dataStore.length) {
             dispatch(setStepReducer(getSetState+1))
         } else {
@@ -49,13 +47,15 @@ const Dashbooard = () => {
     };
 
     useEffect(() => {
+
         if(getStatusSubmit && !getRuningTime){
             handleSubmit()
         } else if(getSavedFormResponse && getSetState && getRuningTime){
             localStorage.setItem("formData", JSON.stringify(getSavedFormResponse));
             localStorage.setItem("step", getSetState.toString());
             localStorage.setItem("timer", getRuningTime);
-        }
+            localStorage.setItem("isSubmit", getStatusSubmit)
+        } 
     }, [getRuningTime, getStatusSubmit, getSavedFormResponse, getSetState]);
 
     const handleFormChange = (e) => {
@@ -68,7 +68,7 @@ const Dashbooard = () => {
     }
 
     const reset = () =>{
-        setTimer(300);
+        setTimer(180);
         dispatch(setStepReducer(1))
         dispatch(setStatusSubmitReducer(false));
         dispatch(savedResponseReducer(null));
@@ -142,27 +142,6 @@ const Dashbooard = () => {
                             >
                                 {getSetState === dataStore.length ? "Submit" : "Next"}
                             </button>
-                            {/*********** it just for trigger need remoove code */}
-                            <button
-                                className="px-4 py-2 text-sm sm:text-lg font-medium text-white bg-primary rounded-md hover:bg-primary/90"
-                                onClick={() => {
-                                    reset()
-                                }}
-                            >
-                                Restart
-                            </button>
-
-                            <button
-                                className="w-full py-2 text-sm sm:text-lg font-medium text-white bg-primary rounded-md bg-green-400"
-                                onClick={() => {
-                                    handleLookResponse()
-                                }}
-                            >
-                                Look response
-                            </button>
-
-                            {/*********** end  -it just for trigger need remoove code */}
-
                             <div className="flex">
                                 <span className="text-sm sm:text-lg font-medium text-primary">
                                     Time Left: {utilize.handleFormatTime(getRuningTime)}

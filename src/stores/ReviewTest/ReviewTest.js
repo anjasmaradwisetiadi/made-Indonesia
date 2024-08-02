@@ -4,18 +4,14 @@ import {createSlice} from '@reduxjs/toolkit'
 const reviewTestSlice = createSlice({
     name: 'reviewTest',
     initialState:{ 
-        reviewTest: null,
-        runningTime: (localStorage.getItem("timer") ? parseInt(localStorage.getItem("timer"), 10) : 300),
-        statusSubmit: false,
+        runningTime: (localStorage.getItem("timer") ? parseInt(localStorage.getItem("timer"), 10) : 180),
+        statusSubmit: (localStorage.getItem("isSubmit") ? JSON.parse(localStorage.getItem("isSubmit")) : false),
         savedFormResponse: (localStorage.getItem("formData") ? JSON.parse(localStorage.getItem("formData")) : {}),
         setStep: (localStorage.getItem("step") ? parseInt(localStorage.getItem("step"), 10) : 10),
         recordReviewTest: [],
         loading: false,
     },
     reducers: {
-      reviewTestReducer(state, payload) {
-        state.reviewTest = payload.payload
-      },
       runningTimeReducer(state, payload){
         if(payload.payload > 0 ){
            state.runningTime = payload.payload
@@ -58,7 +54,6 @@ const reviewTestSlice = createSlice({
                 }
             })
         }
-
         state.recordReviewTest = collectData
       }
     },

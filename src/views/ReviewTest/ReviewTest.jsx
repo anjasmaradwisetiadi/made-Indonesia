@@ -30,7 +30,7 @@ const ReviewSubmit = () => {
         <main className="h-screen flex justify-center items-center p-2 bg-gradient-to-r from-red-primary to-red-secondary font-jakarta">
             <div className='p-6 bg-white/25 backdrop-blur-md rounded-md relative max-w-lg container'>
             <>  
-                <div className='w-full text-lg font-semibold z-10 pb-4 border-b mb-2'>
+                <div className='w-full text-xl z-10 pb-4 border-b mb-2 font-bold'>
                     Your response has been recorded: 
                 </div>
                 <div className="flex flex-col gap-3 relative h-80 sm:h-80 overflow-y-auto">

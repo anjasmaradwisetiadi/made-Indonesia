@@ -23,6 +23,7 @@ const store = configureStore({
     }
 })
 
+// ********* it need for look cahnge data on redux
 // store.subscribe(()=>{
 //     console.log("STORE CHANGE:", store.getState())
 // })

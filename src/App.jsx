@@ -11,7 +11,6 @@ import WrapAuth from './views/auth/WrapAuth/WrapAuth.jsx';
 
 
 function App() {
-  const [count, setCount] = useState(0);
 
   const getRoutes = (allRoutes) =>
     allRoutes.map((route) => {
@@ -21,11 +20,6 @@ function App() {
         return null;
       }
     });
-
-  useEffect(()=>{
-    console.log("react effect = ")
-    console.log(router)
-  }, [])
 
   return (
         <Routes>
