@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
-const HomePage = () => {
+const ReviewSubmit = () => {
     return (
         <div>
-            HomePage
+            ReviewSubmit
         </div>
     )
 }
 
-export default HomePage
+export default ReviewSubmit

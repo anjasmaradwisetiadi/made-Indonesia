@@ -7,9 +7,7 @@ import {
     PURGE,
     REGISTER,
   } from 'redux-persist';
-import counterSlice from './counter/counter';
 import exampleSlice from './example/example';
-import fakeApiSlice from './FakeApi/FakeApi';
 
 const store = configureStore({
     middleware: (getDefaultMiddleware) =>
@@ -20,10 +18,6 @@ const store = configureStore({
      }),
     reducer:{
         example: exampleSlice.reducer,
-        counter: counterSlice.reducer,
-        fakeApi: fakeApiSlice.reducer,
-        
-        // login: loginReducer
     }
 })
 

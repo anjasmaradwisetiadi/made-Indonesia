@@ -7,16 +7,16 @@ const router = [
     component: 'dashboard',
   },
   {
-    name: "login",
-    key: "login",
-    route: "/login",
-    component: 'login',
-  },
-  {
     name: "dashboard",
     key: "dashboard",
     route: "/dashboard",
     component: 'dashboard',
+  },
+  {
+    name: "review-test",
+    key: "review-test",
+    route: "/review-test",
+    component: 'review-test',
   },
 ]
 
