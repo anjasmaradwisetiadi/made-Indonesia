@@ -8,6 +8,7 @@ import {
     REGISTER,
   } from 'redux-persist';
 import exampleSlice from './example/example';
+import reviewTestSlice from './ReviewTest/ReviewTest';
 
 const store = configureStore({
     middleware: (getDefaultMiddleware) =>
@@ -18,6 +19,7 @@ const store = configureStore({
      }),
     reducer:{
         example: exampleSlice.reducer,
+        reviewTest: reviewTestSlice.reducer
     }
 })
 
