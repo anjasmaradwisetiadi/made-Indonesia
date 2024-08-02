@@ -12,11 +12,12 @@ const Dashbooard = () => {
     const dispatch = useDispatch()
     const [step, setStep] = useState(parseInt(localStorage.getItem("step"), 10) || 1);
     const [formData, setFormData] = useState(JSON.parse(localStorage.getItem("formData")) || {});
-    const [timer, setTimer] = useState(parseInt(localStorage.getItem("timer"), 10) || 10);
+    const [timer, setTimer] = useState(parseInt(localStorage.getItem("timer"), 10) || 20);
     const [isSubmitted, setIsSubmitted] = useState(false);
 
     const getRuningTime = useSelector((state)=> state.reviewTest.runningTime);
     const getStatusSubmit = useSelector((state)=> state.reviewTest.statusSubmit);
+    const getFormData = useSelector((state)=> state.reviewTest.savedResponse)
 
     useEffect(()=>{
         const interval = setInterval(() => {
@@ -45,12 +46,28 @@ const Dashbooard = () => {
     };
 
     useEffect(() => {
-        console.log("statusSubmit = ", getStatusSubmit)
         if(getStatusSubmit && !getRuningTime){
             handleSubmit()
+        } else {
+            localStorage.setItem("formData", JSON.stringify(formData));
+            localStorage.setItem("step", step.toString());
+            localStorage.setItem("timer", getRuningTime);
         }
-    }, [getRuningTime, getStatusSubmit]);
-    
+    }, [getRuningTime, getStatusSubmit, getFormData]);
+
+    const handleFormChange = (e) => {
+        setFormData((prev) => ({
+            ...prev,
+            [e.target.name]: e.target.value,
+        }));
+        // dispatch(savedResponseReducer(e))
+    }
+
+    const reset = () =>{
+        localStorage.removeItem("formData");
+        localStorage.removeItem("step");
+        localStorage.removeItem("timer");
+    }
 
     return (
         <main className="h-screen flex justify-center items-center p-2 bg-gradient-to-b from-white via-red-400 to-primary font-jakarta">

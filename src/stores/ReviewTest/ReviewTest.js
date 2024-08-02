@@ -7,7 +7,7 @@ const reviewTestSlice = createSlice({
         reviewTest: null,
         runningTime: 0,
         statusSubmit: false,
-        savedResponse: null,
+        savedResponse: (localStorage.getItem("formData") ? JSON.parse(localStorage.getItem("formData")) : null),
         loading: false,
     },
     reducers: {
@@ -19,11 +19,18 @@ const reviewTestSlice = createSlice({
            state.runningTime = payload.payload
         } else {
             state.runningTime = 0
-           state.statusSubmit = true
+            state.statusSubmit = true
         }
       },
+      setStatusSubmit(state, payload){
+        state.statusSubmit = payload
+      },
       savedResponseReducer(state, payload){
-        state.savedResponse = payload.payload
+        let e = payload.payload
+        state.savedResponse = {
+            ...state.savedResponse,
+            [e.target.name]: e.target.value,
+        };
       },
     //   updateResponseReducer(state, payload){
     //     state.updateResponse = payload.payload 
